@@ -1,13 +1,17 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+// :: 앞뒤가 같으면 생성자
 GainEffectorAudioProcessor::GainEffectorAudioProcessor()
+    // : AudioProcessor (..) 부모 생성자 호출
 	: AudioProcessor (BusesProperties()
 				.withInput ("Input", juce::AudioChannelSet::stereo(), true)
+                    // 안의 세개의 매개변수 (이름표, 입력이 몇인지 juce 에서 미리 정의한 값, 초기 활성화 상태
 				.withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
+                //method chaining. BusesProperties()로 빈 상자 만들고 그 안에 .withInput.. 호출
 	apvts (*this, nullptr, "PARAMETERS", createParameterLayout())
 {
-} 
+}
 
 GainEffectorAudioProcessor::~GainEffectorAudioProcessor() {}
 
