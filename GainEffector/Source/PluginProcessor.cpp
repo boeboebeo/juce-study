@@ -15,7 +15,7 @@ GainEffectorAudioProcessor::GainEffectorAudioProcessor()
 
 GainEffectorAudioProcessor::~GainEffectorAudioProcessor() {}
 
-juce::AudioProcessorValueTreeState::ParameterLayout GainEffectorAudioProcessor::createParameterLaytout()
+juce::AudioProcessorValueTreeState::ParameterLayout GainEffectorAudioProcessor::createParameterLayout()
 {
 	std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 	params.push_back (std::make_unique<juce::AudioParameterFloat> (

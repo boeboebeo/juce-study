@@ -7,7 +7,7 @@ GainEffectorAudioProcessorEditor::GainEffectorAudioProcessorEditor (GainEffector
 {
 	//gainSlider (.h에서 선언해둔 그 멤버 변수)
 	gainSlider.setSliderStyle (juce::Slider::LinearVertical);
-	gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 80, 20); false-읽기전용 아님
+	gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 80, 20); //false-읽기전용 아님
 	addAndMakeVisible (gainSlider);
 	//실제로 화면에 등록하고 보이게 만들어라는 함수
 
@@ -32,6 +32,22 @@ GainEffectorAudioProcessorEditor::GainEffectorAudioProcessorEditor (GainEffector
 }
 
 //소멸자
+GainEffectorAudioProcessorEditor::~GainEffectorAudioProcessorEditor() {}
+
+void GainEffectorAudioProcessorEditor::paint (juce::Graphics& g)
+{
+	g.fillAll (getLookAndFeel(). findColour (juce::ResizableWindow::backgroundColourId));
+}
+
+void GainEffectorAudioProcessorEditor::resized()
+{
+	auto area = getLocalBounds().reduced(20);
+
+	gainSlider.setBounds (area.removeFromTop (250).withSizeKeepingCentre (60, 250));
+	area.removeFromTop(10);
+	phaseInvertButton.setBounds (area.removeFromTop (30));
+}
+
 
 	
 

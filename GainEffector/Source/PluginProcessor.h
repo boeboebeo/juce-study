@@ -1,6 +1,6 @@
 #pragma once
 
-#include <juce_audio_processors/juce_audio_procesors.h>
+#include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_dsp/juce_dsp.h>
 
 class GainEffectorAudioProcessor : public juce::AudioProcessor
@@ -37,7 +37,7 @@ public:
 	int getNumPrograms() override {return 1;} // DAW 가 프리셋 목록 UI 를 그릴때
 	int getCurrentProgram() override {return 0;}  
 	void setCurrentProgram (int) override {} 
-	const juce::String getProgramName (int) override {return {};} 사용자가 DAW 에서 프리셋 번호 바꿀때
+	const juce::String getProgramName (int) override {return {};} //사용자가 DAW 에서 프리셋 번호 바꿀때
 	void changeProgramName (int, const juce::String&) override {}
 
 	void getStateInformation (juce::MemoryBlock& destData) override; //DAW 세션 저장시

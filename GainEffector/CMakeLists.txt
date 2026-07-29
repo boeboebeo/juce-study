@@ -4,6 +4,7 @@ project(GainEffector VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 add_subdirectory(../../JUCE JUCE)
 
 juce_add_plugin(GainEffector
@@ -16,7 +17,10 @@ COPY_PLUGIN_AFTER_BUILD TRUE
 PLUGIN_MANUFACTURER_CODE Mudm
 PLUGIN_CODE Gain
 FORMATS AU VST3 Standalone
-PRODUCT_NAME "GainEffector")
+PRODUCT_NAME "GainEffector"
+MICROPHONE_PERMISSION_ENABLED TRUE
+MICROPHONE_PERMISSION_TEXT "GainEffector needs microphone access to process audio input."
+)
 
 target_sources(GainEffector
 PRIVATE
