@@ -71,3 +71,22 @@ void gainv2AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
         buffer.applyGain (-1.0f);
     
 }
+
+juce::AudioProcessorEditor* gainv2AudioProcessor::createEditor()
+{
+    return new gainv2AudioProcessorEditor (*this);
+}
+
+void gainv2AudioProcessor::getStateInformation(juce::MemoryBlock& destData)
+{
+    auto state = apvts.copyState();
+    std::unique_ptr<juce::XmlElement> xml (state.createXml());
+    copyXmlToBinary (*xml, destData);
+}
+
+void gainv2AudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+{
+    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
+    if (xmlState != nullptr && xmlState -> hasTagName (apvts.state.getType()))
+        apvts.replaceState (juce::ValueTree::fromXml (*xmlState));
+}
