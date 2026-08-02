@@ -29,7 +29,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         return { params.begin(), params.end() };
 }
 
-void gainv2EffectorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void gainv2AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
@@ -38,4 +38,36 @@ void gainv2EffectorAudioProcessor::prepareToPlay (double sampleRate, int samples
     
     gainProcessor.prepare (spec);
     gainProcessor.setRampDurationSeconds (0.02);
+}
+
+void gainv2AudioProcessor::releaseResources() {}
+
+bool gainv2AudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+{
+    return layouts.getMainOutputChannelSet() == layouts.getMainInputChannelSet()
+    && ! layouts.getMainOutputChannelSet().isDisabled();
+}
+
+void gainv2AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&)
+{
+    juce::ScopedNoDenormals noDenormals;
+    
+    const auto totalNumInputChannels = getTotalNumInputChannels();
+    const auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear (i, 0, buffer.getNumSamples());
+    
+    const float gainDb = apvts.getRawParameterValue (GAIN_DB_ID) -> load();
+    const bool invert = apvts.getRawParameterValue (PHASE_INVERT_ID) -> load() > 0.5f;
+    
+    gainProcessor.setGainDecibels (gainDb);
+    
+    juce::dsp::AudioBlock<float> block (buffer);
+    juce::dsp::ProcessContextReplacing<float> context (block);
+    gainProcessor.process (context);
+    
+    if (invert)
+        buffer.applyGain (-1.0f);
+    
 }
