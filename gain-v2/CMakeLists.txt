@@ -14,7 +14,7 @@ NEEDS_MIDI_OUTPUT FALSE
 EDITOR_WANTS_KEYBOARD_FOCUS FALSE
 COPY_PLUGIN_AFTER_BUILD TRUE
 PLUGIN_MANUFACTURER_CODE Mudm
-PLUGIN_CODE Gain
+PLUGIN_CODE Gav2
 FORMATS AU VST3 Standalone
 PRODUCT_NAME "gain-v2"
 MICROPHONE_PERMISSION_ENABLED TRUE
@@ -36,3 +36,9 @@ PUBLIC
 	juce::juce_recommended_config_flags
 	juce::juce_recommended_lto_flags
 	juce::juce_recommended_warning_flags)
+
+target_compile_definitions(gain-v2
+    PUBLIC
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_VST3_CAN_REPLACE_VST2=0)

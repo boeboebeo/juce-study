@@ -19,6 +19,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout
        juce::ParameterID { GAIN_DB_ID, 1},
        "Gain",
        juce::NormalisableRange<float> (-60.0f, 12.0f, 0.01f, 0.5f),
+	0.0f,
        "dB" )); // 내부의 4개 매개변수
         
     params.push_back (std::make_unique<juce::AudioParameterBool> (
