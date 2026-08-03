@@ -4,7 +4,7 @@
 gainv2AudioProcessor::gainv2AudioProcessor()
     : AudioProcessor (BusesProperties()
               .withInput ("Input", juce::AudioChannelSet::stereo(), true)
-              .withOutput ("Output", juce::AudioChannelset::stereo(), true)),
+              .withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
     apvts (*this, nullptr, "PARAMETERS", createParameterLayout())
 {
 }
@@ -89,4 +89,9 @@ void gainv2AudioProcessor::setStateInformation(const void* data, int sizeInBytes
     std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
     if (xmlState != nullptr && xmlState -> hasTagName (apvts.state.getType()))
         apvts.replaceState (juce::ValueTree::fromXml (*xmlState));
+}
+
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+{
+    return new gainv2AudioProcessor();
 }

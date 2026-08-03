@@ -4,7 +4,7 @@ project(gain-v2 VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(../JUCE JUCE)
+add_subdirectory(../../JUCE JUCE)
 
 juce_add_plugin(gain-v2 
 COMPANY_NAME "mudmud" 
@@ -16,7 +16,7 @@ COPY_PLUGIN_AFTER_BUILD TRUE
 PLUGIN_MANUFACTURER_CODE Mudm
 PLUGIN_CODE Gain
 FORMATS AU VST3 Standalone
-PRODUCT_NAME "GainEffector"
+PRODUCT_NAME "gain-v2"
 MICROPHONE_PERMISSION_ENABLED TRUE
 MICROPHONE_PERMISSION_TEXT "gain-v2 needs microphone access to process audio input."
 )
