@@ -18,7 +18,7 @@ juce::AudioProcessorEditor* createEditor() override;
 bool hasEditor() const override { return true; }
 
 
-const juce::String getName() const override { return "SimpleDelay"; }
+const juce::String getName() const override { return "delay-v1"; }
 bool acceptsMidi() const override { return false; }
 bool producesMidi() const override { return false; }
 double getTailLengthSeconds() const override { return 2.0; }
@@ -38,6 +38,7 @@ bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 
 juce::AudioProcessorValueTreeState apvts;
 
+
 private:
     //파라미터 정의 (delay time, feedback, mix)
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
@@ -51,3 +52,18 @@ int maxDelaySamples = 1;
 static constexpr float maxDelayTimesMs = 2000.0f //버퍼가 감당할 최대 딜레이 (2초)
 
 
+//파라미터 목표값이 순간적으로 튀지 않고, 서서히 이동하게 하는 스무딩
+//(delay time, feedback 을 실시간으로 조절할 때 나는 클릭 소리 방지)
+juce::SmoothedValue<float> smoothedDelayMs;
+juce::SmoothedValue<float> smoothedFeedback;
+juce::SmoothedValue<float> smoothedMix;
+
+double sampleRate = 44100.0;
+
+
+//매 block 마다 apvts 에서 현재 파라미터를 읽어와 스무딩 목표값에 반영
+void updateSmoothedTargets();
+
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DelayAudioProcessor)
+
+};
