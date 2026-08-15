@@ -36,4 +36,18 @@ void setStateInformation(const void* data, int sizeInbytes) override;
 
 bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 
+juce::AudioProcessorValueTreeState apvts;
+
+private:
+    //파라미터 정의 (delay time, feedback, mix)
+juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+
+//circular delay buffer
+//python 프로토타입과 달리 곡 길이를 모르므로, 최대로 걸 수 있는 딜레이 타임 크기만큼
+//고정 버퍼를 만들어 계속 재사용함
+juce::AudioBuffer<float> delayBuffer;
+std::vector<int> writePos; //채널별 현재 write 위치
+int maxDelaySamples = 1;
+static constexpr float maxDelayTimesMs = 2000.0f //버퍼가 감당할 최대 딜레이 (2초)
+
 
