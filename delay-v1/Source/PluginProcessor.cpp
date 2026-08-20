@@ -131,8 +131,9 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
         auto* delayData = delayBuffer.getWritePointer(channel);
         
         int& wPos = writePos[(size_t) channel];
-        //wPos 라는 이름을 writePos[channel]에 붙이는 것
-        //현재 채널의 Circular Buffer write 의 위치
+        //wPos 라는 이름을 writePos[channel]에 붙이는 것 -> L 채널 부터 처리
+        //현재 채널의 Circular Buffer write 의 위치(index)
+        //wPos 가 4라면 L 채널의 delayBuffer 에서 4번위치를 쓰고 있음
         
         for (int i = 0; i < numSamples; ++i)
             //이건 샘플을 하나씩 처리하는 반복문
@@ -142,11 +143,12 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
             const float currentFeedback = smoothedFeedback.getnextValue();
             const float currentMix = smoothedMix.getNextValue();
             
-            //다음 샘플 처리할때의 값을 얻는건가 0은 그냥 넘어가고...?
+            
             
             const float delaySamplesFloat = (float) (currentDelayMs / 1000.0 * sampleRate);
             
             const float drySignal = channelData[i];
+            //현재 처리할 드라이시그널의 샘플 번호
             
             // wet 신호 읽기 (fractional delay: 선형보간)
             // delay time 이 float 이므로, 정수 인덱스 두곳을 읽어 그 사이를 보간
@@ -171,6 +173,7 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
             
             //write 위치 한칸 전진, 끝에 도달하면 처음으로 순환(circular buffer)
             wPos = (wPos + 1) % maxDelaySamples;
+                //다음 delayBuffer index 로 이동
             
         }
     }
