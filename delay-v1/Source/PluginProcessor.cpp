@@ -130,10 +130,11 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
         auto* channelData = buffer.getWritePointer(channel);
         auto* delayData = delayBuffer.getWritePointer(channel);
         
-        int& wPos = writePos[(size_t) channel];
+        int& wPos = writePos[(size_t) channel]; //.h 에서 선언 (vector<int> 형)
         //wPos 라는 이름을 writePos[channel]에 붙이는 것 -> L 채널 부터 처리
         //현재 채널의 Circular Buffer write 의 위치(index)
         //wPos 가 4라면 L 채널의 delayBuffer 에서 4번위치를 쓰고 있음
+        //int& -> writePos 이라는 vector<int> 안의 값 참조
         
         for (int i = 0; i < numSamples; ++i)
             //이건 샘플을 하나씩 처리하는 반복문
@@ -153,6 +154,9 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
             // wet 신호 읽기 (fractional delay: 선형보간)
             // delay time 이 float 이므로, 정수 인덱스 두곳을 읽어 그 사이를 보간
             float readPosFloat = (float) wPos - delaySamplesFloat;
+            
+            //readPosFloat 이 정수여도 매 샘플마다 이 계산은 실행됨
+            
             while (readPosFloat < 0.0f)
                 readPosFloat += (float) maxDelaySamples;
                 //원형이므로 순환시켜 유효 범위로
@@ -167,9 +171,12 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
             
             //mix
             channelData[i] = drySignal * (1.0f - currentMix) + wetSignal * currentMix;
+                //채널 데이터 이번 block(ex. 512개의 샘플)의 i 번째 샘플
             
             //circular buffer 에 현재값 기록(feedback 포함)
             delayData[wPos] = drySignal + wetSignal * currentFeedback;
+                //circular buffer 는 2초짜리 delayBuffer (샘플 96001개)
+                //이건 현재 들어온 소리를 DelayBuffer의 wPos 위치에 기록하는 것
             
             //write 위치 한칸 전진, 끝에 도달하면 처음으로 순환(circular buffer)
             wPos = (wPos + 1) % maxDelaySamples;
