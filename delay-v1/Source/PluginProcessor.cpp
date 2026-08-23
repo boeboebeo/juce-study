@@ -186,3 +186,36 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
     }
 }
 
+//UI 생성
+juce::AudioProcessorEditor* DelayAudioProcessor::createEditor()
+{
+    return new DelayAudioProcessorEditor(*this);
+}
+
+//채널 구성 지원 여부 (스테레오만 지원)
+bool DelayAudioProcessor::isBusesLayoutSupported(<#const BusesLayout &#> layouts) const
+{
+    return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo()
+    && layouts.getMainInputChannelSet() == juce::AudioChannelSet::stereo();
+}
+
+//상태 저장, 불러오기 (프로젝트 파일 재로드 시 파라미터 값 복원)
+void DelayAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
+{
+    auto state = apvts.copyState();
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
+}
+
+void DelayAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+{
+    std::unique_ptr<juce::XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+    if (xml != nullptr && xml->hasTagName(apvts.state.getType()))
+        apvts.replaceState(juce::ValueTree::fromXml(*xml));
+}
+
+//JUCE 가 플러그인 인스턴스를 생성할 때 호출하는 표준 진입점
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+{
+    return new DelayAudioProcessor();
+}
