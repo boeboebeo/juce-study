@@ -55,7 +55,7 @@ void DelayAudioProcessor::prepareToPlay(double newSampleRate, int /*samplesPerBl
     sampleRate = newSampleRate;
     
     //circular buffer 크기 = 최대로 걸수 있는 딜레이타임 기준으로 고정 확보
-    maxDelaySamples = (int) (maxDelayTimeMs / 1000.0 * sampleRate) + 1;
+    maxDelaySamples = (int) (maxDelayTimesMs / 1000.0 * sampleRate) + 1;
     
     //maxDelaySamples, delayBuffer, writePos .. 등 다 .h 파일에서 선언해둔 객체명임
     delayBuffer.setSize(getTotalNumOutputChannels(), maxDelaySamples);
@@ -141,7 +141,7 @@ void DelayAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::M
         {
             //이번 샘플에서 쓸 파라미터 값을 한 스텝 진행 (부드럽게 목표값으로 접근)
             const float currentDelayMs = smoothedDelayMs.getNextValue();
-            const float currentFeedback = smoothedFeedback.getnextValue();
+            const float currentFeedback = smoothedFeedback.getNextValue();
             const float currentMix = smoothedMix.getNextValue();
             
             
@@ -193,7 +193,7 @@ juce::AudioProcessorEditor* DelayAudioProcessor::createEditor()
 }
 
 //채널 구성 지원 여부 (스테레오만 지원)
-bool DelayAudioProcessor::isBusesLayoutSupported(<#const BusesLayout &#> layouts) const
+bool DelayAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
     return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo()
     && layouts.getMainInputChannelSet() == juce::AudioChannelSet::stereo();

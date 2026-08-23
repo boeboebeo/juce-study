@@ -6,7 +6,7 @@ class DelayAudioProcessor : public juce::AudioProcessor
 public:
     DelayAudioProcessor();
     ~DelayAudioProcessor() override = default;
-}
+    
 
     //DAW가 재생 시작 직전 1회 호출 -> 여기서 버퍼/스무딩 값 준비
 void prepareToPlay(double sampleRate, int samplesPerBlock) override;
@@ -49,7 +49,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 juce::AudioBuffer<float> delayBuffer;
 std::vector<int> writePos; //채널별 현재 write 위치
 int maxDelaySamples = 1;
-static constexpr float maxDelayTimesMs = 2000.0f //버퍼가 감당할 최대 딜레이 (2초)
+    static constexpr float maxDelayTimesMs = 2000.0f;//버퍼가 감당할 최대 딜레이 (2초)
 
 
 //파라미터 목표값이 순간적으로 튀지 않고, 서서히 이동하게 하는 스무딩

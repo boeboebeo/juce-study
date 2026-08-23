@@ -1,0 +1,286 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project delay-v1.xcodeproj build -configuration Debug -parallelizeTargets -hideShellScriptEnvironment -target ALL_BUILD
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (7 targets)
+    Target 'ALL_BUILD' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1_Standalone' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1_AU' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1_VST3' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'delay-v1_VST3' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1_vst3_helper' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'delay-v1_vst3_helper' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'delay-v1_AU' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'delay-v1_Standalone' in project 'delay-v1'
+        ➜ Explicit dependency on target 'delay-v1' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'delay-v1' in project 'delay-v1'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'delay-v1'
+    Target 'ZERO_CHECK' in project 'delay-v1' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x objective-c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -V
+
+Build description signature: 12579452362bc74ce839fdeee1c3fd46
+Build description path: /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/XCBuildData/12579452362bc74ce839fdeee1c3fd46.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk /var/folders/qw/3z_r72h967sf7yt6tslb9yz40000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/macosx26.2-25C57-00fa09913b459cbbc988d1f6730289ae.sdkstatcache
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -o /var/folders/qw/3z_r72h967sf7yt6tslb9yz40000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/macosx26.2-25C57-00fa09913b459cbbc988d1f6730289ae.sdkstatcache
+
+PhaseScriptExecution Generate\ CMakeFiles/ZERO_CHECK /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1.build/Debug/ZERO_CHECK.build/Script-07C47A199F14DD61161F374B.sh (in target 'ZERO_CHECK' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1.build/Debug/ZERO_CHECK.build/Script-07C47A199F14DD61161F374B.sh
+/opt/homebrew/bin/cmake -P /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/VerifyGlobs.cmake
+
+note: Run script build phase 'Generate CMakeFiles/delay-v1_vst3_helper' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'delay-v1_vst3_helper' from project 'delay-v1')
+PhaseScriptExecution Generate\ CMakeFiles/delay-v1_vst3_helper /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1.build/Debug/delay-v1_vst3_helper.build/Script-FC1B6D96A4E94A7D61D97523.sh (in target 'delay-v1_vst3_helper' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1.build/Debug/delay-v1_vst3_helper.build/Script-FC1B6D96A4E94A7D61D97523.sh
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project juce_vst3_manifest_helper.xcodeproj build -configuration Debug -parallelizeTargets -hideShellScriptEnvironment -target ALL_BUILD
+
+Build settings from command line:
+    TOOLCHAINS = com.apple.dt.toolchain.XcodeDefault
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'ALL_BUILD' in project 'juce_vst3_manifest_helper'
+        ➜ Explicit dependency on target 'vst3_helper' in project 'juce_vst3_manifest_helper'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'juce_vst3_manifest_helper'
+    Target 'vst3_helper' in project 'juce_vst3_manifest_helper'
+        ➜ Explicit dependency on target 'ZERO_CHECK' in project 'juce_vst3_manifest_helper'
+    Target 'ZERO_CHECK' in project 'juce_vst3_manifest_helper' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 61d74621f7600649bae309e383a55bf4
+Build description path: /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/XCBuildData/61d74621f7600649bae309e383a55bf4.xcbuilddata
+note: Using global toolchain override 'Xcode Default'.
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk /var/folders/qw/3z_r72h967sf7yt6tslb9yz40000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/26.2-17C52/Xcode/SDKStatCaches.noindex/macosx26.2-25C57-6c9eaa8b07af4dea956ccca2a941a8b200fa09913b459cbbc988d1f6730289ae.sdkstatcache
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/juce_vst3_manifest_helper.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -o /var/folders/qw/3z_r72h967sf7yt6tslb9yz40000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/26.2-17C52/Xcode/SDKStatCaches.noindex/macosx26.2-25C57-6c9eaa8b07af4dea956ccca2a941a8b200fa09913b459cbbc988d1f6730289ae.sdkstatcache
+
+note: Using global toolchain override 'Xcode Default'. (in target 'ZERO_CHECK' from project 'juce_vst3_manifest_helper')
+note: Run script build phase 'Generate CMakeFiles/ZERO_CHECK' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ZERO_CHECK' from project 'juce_vst3_manifest_helper')
+PhaseScriptExecution Generate\ CMakeFiles/ZERO_CHECK /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/juce_vst3_manifest_helper.build/Debug/ZERO_CHECK.build/Script-ACD05F32A2ED51C6F16F2953.sh (in target 'ZERO_CHECK' from project 'juce_vst3_manifest_helper')
+    cd /Users/goeun/Developer/Projects/JUCE/extras/Build/CMake/juce_vst3_helper
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/juce_vst3_manifest_helper.build/Debug/ZERO_CHECK.build/Script-ACD05F32A2ED51C6F16F2953.sh
+make: `/Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/CMakeFiles/cmake.check_cache' is up to date.
+
+note: Using global toolchain override 'Xcode Default'. (in target 'vst3_helper' from project 'juce_vst3_manifest_helper')
+ProcessProductPackaging "" /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent (in target 'vst3_helper' from project 'juce_vst3_manifest_helper')
+    cd /Users/goeun/Developer/Projects/JUCE/extras/Build/CMake/juce_vst3_helper
+    
+    Entitlements:
+    
+    {
+    "com.apple.application-identifier" = "";
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent
+
+ProcessProductPackagingDER /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent.der (in target 'vst3_helper' from project 'juce_vst3_manifest_helper')
+    cd /Users/goeun/Developer/Projects/JUCE/extras/Build/CMake/juce_vst3_helper
+    /usr/bin/derq query -f xml -i /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent.der --raw
+
+CodeSign /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/vst3_helper (in target 'vst3_helper' from project 'juce_vst3_manifest_helper')
+    cd /Users/goeun/Developer/Projects/JUCE/extras/Build/CMake/juce_vst3_helper
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/vst3_helper.build/Debug/vst3_helper.xcent --timestamp\=none --generate-entitlement-der /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/vst3_helper
+/Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/vst3_helper: replacing existing signature
+
+note: Using global toolchain override 'Xcode Default'. (in target 'ALL_BUILD' from project 'juce_vst3_manifest_helper')
+note: Run script build phase 'Generate CMakeFiles/ALL_BUILD' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ALL_BUILD' from project 'juce_vst3_manifest_helper')
+PhaseScriptExecution Generate\ CMakeFiles/ALL_BUILD /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/juce_vst3_manifest_helper.build/Debug/ALL_BUILD.build/Script-4BA9F3D5A41703EB23457EB1.sh (in target 'ALL_BUILD' from project 'juce_vst3_manifest_helper')
+    cd /Users/goeun/Developer/Projects/JUCE/extras/Build/CMake/juce_vst3_helper
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/vst3_helpers/delay-v1/build/juce_vst3_manifest_helper.build/Debug/ALL_BUILD.build/Script-4BA9F3D5A41703EB23457EB1.sh
+Build all projects
+
+** BUILD SUCCEEDED **
+
+
+ProcessProductPackaging /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_AU.entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_AU.entitlements -entitlements -format xml -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent
+
+ProcessProductPackaging /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_Standalone.entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Entitlements:
+    
+    {
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_Standalone.entitlements -entitlements -format xml -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent
+
+ProcessProductPackagingDER /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent.der (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /usr/bin/derq query -f xml -i /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent.der --raw
+
+ProcessProductPackagingDER /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent.der (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /usr/bin/derq query -f xml -i /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent.der --raw
+
+PhaseScriptExecution Generate\ delay-v1_artefacts/JuceLibraryCode/delay-v1_Standalone/PkgInfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/Script-2C907B8DC92A993809AC8E4B.sh (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/Script-2C907B8DC92A993809AC8E4B.sh
+
+PhaseScriptExecution Generate\ delay-v1_artefacts/JuceLibraryCode/delay-v1_AU/PkgInfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/Script-7E7D29330FA53BFA200BC6C5.sh (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/Script-7E7D29330FA53BFA200BC6C5.sh
+
+ProcessInfoPlistFile /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component/Contents/Info.plist /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_AU.dir/Info.plist (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    builtin-infoPlistUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_AU.dir/Info.plist -producttype com.apple.product-type.bundle -genpkginfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component/Contents/Info.plist
+
+ProcessInfoPlistFile /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app/Contents/Info.plist /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_Standalone.dir/Info.plist (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    builtin-infoPlistUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_Standalone.dir/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app/Contents/Info.plist
+
+PhaseScriptExecution CMake\ PostBuild\ Rules /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/Script-9E8B9C6D42A6D5F349D2F9D5.sh (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/Script-9E8B9C6D42A6D5F349D2F9D5.sh
+
+PhaseScriptExecution CMake\ PostBuild\ Rules /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/Script-1F5A09C085468AE9C00FC89C.sh (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/Script-1F5A09C085468AE9C00FC89C.sh
+-- Destination /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component exists, overwriting
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/_CodeSignature
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/_CodeSignature/CodeResources
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/MacOS
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/MacOS/delay-v1
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/Info.plist
+-- Installing: /Users/goeun/Library/Audio/Plug-Ins/Components/delay-v1.component/Contents/PkgInfo
+
+CodeSign /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp --entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_Standalone.build/Debug/delay-v1.app.xcent --generate-entitlement-der /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app
+/Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app: replacing existing signature
+
+Validate /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    builtin-validationUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app (in target 'delay-v1_Standalone' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/Standalone/delay-v1.app
+
+CodeSign /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component (in target 'delay-v1_AU' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp --entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_AU.build/Debug/delay-v1.component.xcent --generate-entitlement-der /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component
+/Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/AU/delay-v1.component: replacing existing signature
+
+note: Run script build phase 'CMake PostBuild Rules' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'delay-v1_VST3' from project 'delay-v1')
+ProcessProductPackaging /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_VST3.entitlements /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent (in target 'delay-v1_VST3' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/JuceLibraryCode/delay-v1_VST3.entitlements -entitlements -format xml -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent
+
+ProcessProductPackagingDER /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent.der (in target 'delay-v1_VST3' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /usr/bin/derq query -f xml -i /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/delay-v1.vst3.xcent.der --raw
+
+PhaseScriptExecution Generate\ delay-v1_artefacts/JuceLibraryCode/delay-v1_VST3/PkgInfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Script-F9951DBC8CE3565909E3AE11.sh (in target 'delay-v1_VST3' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    /bin/sh -c /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Script-F9951DBC8CE3565909E3AE11.sh
+
+ProcessInfoPlistFile /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/VST3/delay-v1.vst3/Contents/Info.plist /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_VST3.dir/Info.plist (in target 'delay-v1_VST3' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    builtin-infoPlistUtility /Users/goeun/Developer/Projects/juce-study/delay-v1/build/CMakeFiles/delay-v1_VST3.dir/Info.plist -producttype com.apple.product-type.bundle -genpkginfo /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/VST3/delay-v1.vst3/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/delay-v1_artefacts/Debug/VST3/delay-v1.vst3/Contents/Info.plist
+
+CompileC /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/juce_audio_plugin_client_VST3.o /Users/goeun/Developer/Projects/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm normal arm64 objective-c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'delay-v1_VST3' from project 'delay-v1')
+    cd /Users/goeun/Developer/Projects/juce-study/delay-v1
+    
+    Using response file: /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -ivfsstatcache /var/folders/qw/3z_r72h967sf7yt6tslb9yz40000gn/C/com.apple.DeveloperTools/26.2-17C52/Xcode/SDKStatCaches.noindex/macosx26.2-25C57-00fa09913b459cbbc988d1f6730289ae.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wsign-conversion -Wbool-conversion -Wextra-semi -Wunreachable-code -Wcast-align -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic -Wdeprecated -Wfloat-equal -Wmissing-field-initializers -Wzero-as-null-pointer-constant -Wunused-private-field -Woverloaded-virtual -Wreorder -Winconsistent-missing-destructor-override @/Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp -MMD -MT dependencies -MF /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/juce_audio_plugin_client_VST3.d --serialize-diagnostics /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/juce_audio_plugin_client_VST3.dia -c /Users/goeun/Developer/Projects/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm -o /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/juce_audio_plugin_client_VST3.o
+In file included from /Users/goeun/Developer/Projects/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm:35:
+/Users/goeun/Developer/Projects/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.cpp:101:3: error: You may have a conflict with parameter automation between VST2 and VST3 versions of your plugin. See the comment above for more details.
+  101 |  #error You may have a conflict with parameter automation between VST2 and VST3 versions of your plugin. See the comment above for more details.
+      |   ^
+1 error generated.
+
+note: Run script build phase 'Generate CMakeFiles/ALL_BUILD' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ALL_BUILD' from project 'delay-v1')
+note: Run script build phase 'Generate CMakeFiles/ZERO_CHECK' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'ZERO_CHECK' from project 'delay-v1')
+note: Run script build phase 'CMake PostBuild Rules' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'delay-v1_AU' from project 'delay-v1')
+note: Run script build phase 'CMake PostBuild Rules' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'delay-v1_Standalone' from project 'delay-v1')
+** BUILD FAILED **
+
+
+The following build commands failed:
+	CompileC /Users/goeun/Developer/Projects/juce-study/delay-v1/build/build/delay-v1_VST3.build/Debug/Objects-normal/arm64/juce_audio_plugin_client_VST3.o /Users/goeun/Developer/Projects/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm normal arm64 objective-c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'delay-v1_VST3' from project 'delay-v1')
+(1 failure)
