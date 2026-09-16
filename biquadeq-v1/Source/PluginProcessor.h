@@ -53,7 +53,15 @@ public:
 private:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
+    //Reads current APVTS values and pushes them into every channel's bands.
+    void updateBandParameters();
     
+    //filter state (x1, x2, y1, y2)
+    std::vector<BiquadBand> highPassBands;
+    std::vector<BiquadBand> peakingBands;
+    std::vector<BiquadBand> lowPassBands;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ThreeBandEQAudioProcessor)
     
     
 }
