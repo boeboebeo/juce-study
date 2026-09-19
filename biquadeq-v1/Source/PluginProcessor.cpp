@@ -114,11 +114,45 @@ void ThreeBandEQAudioProcessor::updateBandParameters()
             band.setParameters (FilterType::HighPass, hpFreq, hpQ, 0.0);
         
         for (auto& band : peakingBands)
-            band.setParameters (FilterType::peaking, peakFreq, peakQ, peakGain);
+            band.setParameters (FilterType::Peaking, peakFreq, peakQ, peakGain);
         
         for (auto& band : lowPassBands)
             band.setParameters (FilterType::LowPass, lpFreq, lpQ, 0.0);
     
+    }
+    
+    
+void ThreeBandEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
+                                              juce::MidiBuffer& /*midiMessages*/)
+    
+    {
+        juce::ScopedNoDenormals noDenormals;
+        
+        updateBandParameters(); //여기서 block 마다 계수계산 다시 함
+        
+        const int numChannels = buffer.getNumChannels();
+        const int numSamples = buffer.getNumSamples();
+        
+        for (int ch = 0; ch < numChannels; ++ch)
+        {
+            //cascade(직렬) 구조. hp -> peak -> lp 로 순차적으로 계산됨
+            //각 채널마다 독립적인 cascade
+            //Heq(z) = Hhp​(z) * Hpeak​(z) * Hlp(z)
+            auto* data = buffer.getWritePointer (ch);
+            auto& hp   = highPassBands[(size_t) ch];
+            auto& peak = peakingBands[(size_t) ch];
+            auto& lp   = lowPassBands[(size_t) ch];
+            
+            for (int n = 0; n < numSamples; ++n)
+            {
+                float sample = data[n];
+                sample = hp.processSample (sample);
+                sample = peak.processSample (sample);
+                sample = lp.processSample (sample);
+                data[n] = sample;
+            }
+        }
+        
     }
 
     
