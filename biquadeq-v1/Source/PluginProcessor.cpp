@@ -154,6 +154,14 @@ void ThreeBandEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         }
         
     }
+    
+//==============================================================================
+void ThreeBandEQAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+{
+    auto state = apvts.copyState();
+    std::unique_ptr<juce::XmlElement> xml (state.createXml());
+    copyXmlToBinary (*xml, destData);
+}
 
     
 }
