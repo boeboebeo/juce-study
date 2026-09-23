@@ -170,6 +170,12 @@ void ThreeBandEQAudioProcessor::setStateInformation (const void* data, int sizeI
     if (xmlState != nullptr && xmlState->hasTagName (apvts.state.getType()))
         apvts.replaceState (juce::ValueTree::fromXml (*xmlState));
 }
+    
+//==============================================================================
+juce::AudioProcessorEditor* ThreeBandEQAudioProcessor::createEditor()
+{
+    return new ThreeBandEQAudioProcessorEditor (*this);
+}
 
     
 }
