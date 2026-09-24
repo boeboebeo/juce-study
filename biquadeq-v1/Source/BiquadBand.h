@@ -39,7 +39,7 @@ public:
         reset();
         calculateCoefficients();
     }
-}
+
 
 //Clears the filter's memory(x1, x2, y1, y2)
 //Call this whenever playback restarts or a discontinuity is expected
@@ -67,7 +67,7 @@ void setParameters (FilterType newType, double newFreq, double newQ, double newG
 // y0 = b0*x0 + b1*x1 + b2*x2 - a1*y1 - a2*y2
 inline float processSample (float xIn) noexcept
 {
-    const double x0 = (double xIn);
+    const double x0 = (double) xIn;
     //xIn 원래 float 형 -> double 형으로 형변환
     
     //y0 이라는 새로운 변수를 생성(선언) 하면서 자료형을 다 지정한것.
@@ -192,7 +192,7 @@ private:
         a2 = ra2/ra0;
         }
 
-FilterType filtertype = FilterType::LowPass;
+FilterType filterType = FilterType::LowPass;
     //처음 실행시에는 FilterType = LowPass 로 셋팅되어 있음
     //FilterType 이라는 자료형의 filtertype 이라는 멤버변수 하나를 만들자
     //근데 그걸 그냥 초기값은 LowPass 로 설정

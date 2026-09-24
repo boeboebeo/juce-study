@@ -25,50 +25,51 @@ juce::AudioProcessorValueTreeState::ParameterLayout ThreeBandEQAudioProcessor::c
     
     //High-pass band
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
-                   "hpFreq", //Parameter ID (첫번째 인자로 전달되는 문자열이 파라미터 식별자)
-                   "HP Freq",   //사용자에게 보여주긴 위한 파라미터 이름
-                   juce::NormalisableRange<float> (20.0f, 2000.0f, 0.1f, 0.3f), 100.0f));
+                                                                   "hpFreq", //Parameter ID (첫번째 인자로 전달되는 문자열이 파라미터 식별자)
+                                                                   "HP Freq",   //사용자에게 보여주긴 위한 파라미터 이름
+                                                                   juce::NormalisableRange<float> (20.0f, 2000.0f, 0.1f, 0.3f), 100.0f));
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
-                   "hpQ",
-                   "HP Q",
-                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 0.707f
+                                                                   "hpQ",
+                                                                   "HP Q",
+                                                                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 0.707f
                                                                    ));
     
-        //위의 AudioParameterFloat 을 params 가 소유함 (이 객체의 유일한 소유자)
-        //그래서 delete 할 필요 없음
+    //위의 AudioParameterFloat 을 params 가 소유함 (이 객체의 유일한 소유자)
+    //그래서 delete 할 필요 없음
     
     //Peaking band
-    params.push_back (std::make_unique<juce::AudioParameter<float>>(
-                    "peakFreq",
-                    "Peak Freq",
-                    juce::NormalisableRange<float> (20.0f, 20000.0f, 0.1f, 0.3f), 100.0f
+    params.push_back (std::make_unique<juce::AudioParameterFloat>(
+                                                                    "peakFreq",
+                                                                    "Peak Freq",
+                                                                    juce::NormalisableRange<float> (20.0f, 20000.0f, 0.1f, 0.3f), 100.0f
                                                                     ));
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
-                   "peakQ",
-                   "Peak Q",
-                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 1.0f
+                                                                   "peakQ",
+                                                                   "Peak Q",
+                                                                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 1.0f
                                                                    ));
     params.push_back (std::make_unique<juce::AudioParameterFloat>(
-                  "peakGain",
-                  "Peak Gain",
-                  juce::NormalisableRange<float> (-24.0f, 24.0f, 0.1f), 6.0f
+                                                                  "peakGain",
+                                                                  "Peak Gain",
+                                                                  juce::NormalisableRange<float> (-24.0f, 24.0f, 0.1f), 6.0f
                                                                   ));
     
     //Low-pass band
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
-                   "lpFreq",
-                   "LP Freq",
-                   juce::NormalisableRange<float> (20.0f, 20000.0f, 0.1f, 0.3f), 1000.0f
+                                                                   "lpFreq",
+                                                                   "LP Freq",
+                                                                   juce::NormalisableRange<float> (20.0f, 20000.0f, 0.1f, 0.3f), 1000.0f
                                                                    ));
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
-                   "lpQ",
-                   "LP Q",
-                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 0.707f
+                                                                   "lpQ",
+                                                                   "LP Q",
+                                                                   juce::NormalisableRange<float> (0.1f, 10.0f, 0.01f, 0.5f), 0.707f
                                                                    ));
     
     return { params.begin(), params.end() };
-        //params 의 원소 전체를 이용해서 ParameterLayout 객체를 만들어 반환
+    //params 의 원소 전체를 이용해서 ParameterLayout 객체를 만들어 반환
     
+}
     
 //=========================================================================
 void ThreeBandEQAudioProcessor::prepareToPlay (double sampleRate, int /*samplesPerBlock*/)
@@ -178,4 +179,10 @@ juce::AudioProcessorEditor* ThreeBandEQAudioProcessor::createEditor()
 }
 
     
+//==============================================================================
+// creates new instances of the plugin.
+    
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+{
+    return new ThreeBandEQAudioProcessor();
 }
