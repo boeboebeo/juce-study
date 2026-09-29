@@ -70,3 +70,42 @@ void Compressor::updateTimeConstants()
 
 
 //==============================================================================
+float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int sampleIndex)
+{
+    const int numChannels = buffer.getNumChannels();
+    
+    if (detectorType == DetectorType::Peak)
+    {
+        /*
+         stereo-linked PEAK : the largest absolute sample across all channels
+         at this time index. No temporal smoothing here
+         peak detection should react instantly
+         the attack/release ballistics are applied later, to the gain reduction filter
+         -> 한 샘플 시점 n 에서 모든 채널 중 가장 큰 절댓값을 detector 값으로 사용함
+         -> 시간방향의 smoothing 을 하지 않음
+         */
+        float peak = 0.0f;
+        for (int ch = 0; ch < numChannels; ++ch)
+            peak = juce::jmax (peak, std::abs (buffer.getSample (ch, sampleIndex)));
+        
+        return peak;
+    }
+    else  // RMS detectorType 이라면
+    {
+        /*
+         stereo-linked RMS : average instantaneous power across channels, then run it through a one-pole low-pass (rmsCoeff) to get a moving average
+         - this is what makes it an "RMS window" rather than an instantaneous value.
+         sqrt() at the end converts the averaged power back to an amplitude-like level.
+         - 한 샘플 짜리 순간값으로 쓰는게 아니라, 각 채널의 순간 파워의 제곱을 더하고 2로 나눈후에, one-pole low pass 를 먼저 통과시키고(rmsCoeff) -> sqrt()
+         */
+        float sumSquares = 0.0f;
+        for (int ch = 0; ch < numChannels; ++ch)
+        {
+            const float x = buffer.getSample (ch, sampleIndex);
+            sumSquares += x * x;
+        }
+        const float instantPower = sumSquares / float juce::jmax (numchannels, 1);
+        
+        
+    }
+}
