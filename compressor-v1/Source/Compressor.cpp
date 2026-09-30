@@ -106,6 +106,9 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
         }
         const float instantPower = sumSquares / float juce::jmax (numchannels, 1);
         
+        rmsMeanSquare = rmsCoeff * rmsMeanSquare + (1.0f - rmsCoeff) * instantPower;
+        return std::sqrt (rmsMeanSquare);
+        
         
     }
 }
