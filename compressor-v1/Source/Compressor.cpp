@@ -87,6 +87,7 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
         float peak = 0.0f;
         for (int ch = 0; ch < numChannels; ++ch)
             peak = juce::jmax (peak, std::abs (buffer.getSample (ch, sampleIndex)));
+            //외부for문에서는 ++sampleIndex 처리 (이 함수를 호출하는 부분에서의 for문
         
         return peak;
     }
@@ -98,6 +99,7 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
          sqrt() at the end converts the averaged power back to an amplitude-like level.
          - 한 샘플 짜리 순간값으로 쓰는게 아니라, 각 채널의 순간 파워의 제곱을 더하고 2로 나눈후에, one-pole low pass 를 먼저 통과시키고(rmsCoeff) -> sqrt()
          */
+        
         float sumSquares = 0.0f;
         for (int ch = 0; ch < numChannels; ++ch)
         {
@@ -105,9 +107,20 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
             sumSquares += x * x;
         }
         const float instantPower = sumSquares / float juce::jmax (numchannels, 1);
+            //현재 sampleIndex 의 각 채널의 값 제곱후 평균 - 임시변수
+            //현재 한 샘플 시점의 평균 power
+            //but, RMS 의 핵심은 "시간 평균". instantPower 는 현재 평균
+        
+            //여기서는 매번 정확히 N 개의 샘플을 잘라서 평균을 내는대신
+            //one-pole LPF 를 이용해서 시간평균을 만드는 방식
         
         rmsMeanSquare = rmsCoeff * rmsMeanSquare + (1.0f - rmsCoeff) * instantPower;
+            //우변의 rmsMeanSquare = 이전에 들어있던 평균 power
+            //이전평균 _% + 현재평균 (1-_)더해서 평균을 구하는것
+            //ex. 이전평균 power 90% + 현재 power 10%
+        
         return std::sqrt (rmsMeanSquare);
+            //위에서는 Mean Square 를 처리했으니, 이 sqrt 로 루트 처리하는것
         
         
     }
