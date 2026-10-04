@@ -136,10 +136,55 @@ float Compressor::staticCurveDb(float inputDb) const
         //threshold 보다 입력레벨이 얼마나 넘어갔는지? = overshoot
     
     if (2.0f * overshoot < -kneeDb)
+            //여기서는 knee 보다 아래인지만 확인하면됨 (overshoot 무조건 음수)
     {
         return inputDb;
-        //untouched knee, 1:1
+        //below the knee, 1:1
         //overshoot(threshold 보다 넘어간 레벨) 보다 -kneeDb의 절반보다 작으면
         //그냥 그대로 출력
+    }
+    else if (2.0f * std::abs (overshoot) <= kneeDb)
+            //여기서는 threshold 위쪽과 아래쪽을 모두 포함시켜야 하니까 절대값 취해서 계산
+    {
+        const float x = overshoot + kneeDb / 2.0f;
+        return inputDb + ((1.0f / ratio - 1.0f) * x * x ) / (2.0f * kneeDb);
+        //inside the knee
+        //위는 knee 구간동안의 레벨을 구하기 위한 quadratic 식 (2차 방정식)
+    }
+    else
+    {
+        return thresholdDb + overshoot / ratio;
+    }
+}
+
+
+
+//==============================================================================
+void Compressor::processBlock(juce::AudioBuffer<float>& buffer)
+{
+    const int numChannels = buffer.getNumChannels();
+    const int numSamples = buffer.getNumSamples();
+    const float makeupGainLinear = juce::Decibels::decibelsToGain(makeupDb);
+    
+    for (int n = 0; n < numSamples; ++n)
+    {
+        //1. Detect the linked input level
+        const float level = computeLinkedLevel (buffer, n);
+        const float inputDb = juce::Decibels::gainToDecibels (level, minusInfDb);
+        
+        
+        //2. Static gain computer : ignoring ballistics entirely
+        const float targetOutputDb = staticCurveDb (inputDb);
+        const float targetGrDb = targetOutputDb - inputDb; // <= 0
+            //if, 입력이 threshold - knee/2 한것보다 낮은 레벨이라면 그냥 그대로 나오므로
+            //inputDb - inputDb 해서 <= 0 성립
+            //위 staticCurveDb 함수에서의 if 첫번째 내용
+        
+            //아래 두 if 에 대해서도 다 <= 0은 성립함
+            //static curve 는 입력을 그대로 두거나, 줄이는 방향으로 설계되어 있기 때문
+        
+        
+        //3. Branching ballistics
+        
     }
 }
