@@ -125,3 +125,21 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
         
     }
 }
+
+//soft-knee static curve (Giannoulis/Massberg/Reiss formulation).
+//attack/release 는 목표값을 시간에 따라 어떻게 따라갈지 (시간적 ballistics)
+//Static curve = 입력레벨에 따른 목표값 (시간적 ballistics 사용하기 전에 입력->목표출력 레벨 사이의 정적 전달커브만 계산함)
+// 둘은 서로 다른 축을 다룸. static curve - 레벨축 / attack, release - 시간 축 (목표에 대한)
+float Compressor::staticCurveDb(float inputDb) const
+{
+    const float overshoot = inputDb - thresholdDb;
+        //threshold 보다 입력레벨이 얼마나 넘어갔는지? = overshoot
+    
+    if (2.0f * overshoot < -kneeDb)
+    {
+        return inputDb;
+        //untouched knee, 1:1
+        //overshoot(threshold 보다 넘어간 레벨) 보다 -kneeDb의 절반보다 작으면
+        //그냥 그대로 출력
+    }
+}
