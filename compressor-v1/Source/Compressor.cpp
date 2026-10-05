@@ -185,6 +185,13 @@ void Compressor::processBlock(juce::AudioBuffer<float>& buffer)
         
         
         //3. Branching ballistics
+        //smoothly move envelopeDb toward targetGrDb.
+        const float coeff = (targetGrDb < envelopeDb) ? attackCoeff : releaseCoeff;
+            // targetGrDb < envelopeDb 면 -> coeff = attackCoeff
+                //targetGrDb가 더 작으면 더 줄여야 하는것이므로 attack 적용
+            // 아니면 -> coeff = releaseCoeff
+                //반대라면 gain reduction 을 풀고있는 것이므로 release 적용
+            //? : => 삼항 연산자
         
     }
 }
