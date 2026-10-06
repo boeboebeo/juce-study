@@ -165,26 +165,33 @@ void Compressor::processBlock(juce::AudioBuffer<float>& buffer)
     const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();
     const float makeupGainLinear = juce::Decibels::decibelsToGain(makeupDb);
+        //미리 makeup gain을 linear 로 바꿔둠
+        //ex. makeupDb = +6dB면 => 약 1.995 <- 이게 makeupGainLinear가 되는것
     
     for (int n = 0; n < numSamples; ++n)
+        //이제 각 n마다 아래의 모든 과정을 반복함
     {
         //1. Detect the linked input level
+        //입력레벨 측정 후 dB로 변환
         const float level = computeLinkedLevel (buffer, n);
         const float inputDb = juce::Decibels::gainToDecibels (level, minusInfDb);
         
         
         //2. Static gain computer : ignoring ballistics entirely
+        //위 staticCurveDb 함수를 사용해서 목표 출력 dB 구함
         const float targetOutputDb = staticCurveDb (inputDb);
-        const float targetGrDb = targetOutputDb - inputDb; // <= 0
+        const float targetGrDb = targetOutputDb - inputDb;
+            //목표 gain reduction 계산
+        
             //if, 입력이 threshold - knee/2 한것보다 낮은 레벨이라면 그냥 그대로 나오므로
-            //inputDb - inputDb 해서 <= 0 성립
+            //inputDb - inputDb 해서 <= 0 성립 (0보다 작음)
             //위 staticCurveDb 함수에서의 if 첫번째 내용
         
             //아래 두 if 에 대해서도 다 <= 0은 성립함
             //static curve 는 입력을 그대로 두거나, 줄이는 방향으로 설계되어 있기 때문
         
         
-        //3. Branching ballistics
+        //3. Branching ballistics - 이제 attack, release 판단
         //smoothly move envelopeDb toward targetGrDb.
         const float coeff = (targetGrDb < envelopeDb) ? attackCoeff : releaseCoeff;
             // targetGrDb < envelopeDb 면 -> coeff = attackCoeff
@@ -192,6 +199,23 @@ void Compressor::processBlock(juce::AudioBuffer<float>& buffer)
             // 아니면 -> coeff = releaseCoeff
                 //반대라면 gain reduction 을 풀고있는 것이므로 release 적용
             //? : => 삼항 연산자
+        envelopeDb = coeff * envelopeDb + (1.0f - coeff) * targetGrDb;
+            //맨 위에서 envelopeDb = 0.0f 로 초기화해둠
+            //맨 처음에는 0이니까 당연히 targetGrDb가 더 작음
         
+        
+        //4. convert the smoothed dB gain reduction back to a linear gain and apply it. + make up gain to every channel equally
+        const float gainLinear = juce::Decibels::decibelsToGain (envelopeDb) * makeupGainLinear;
+            //envelopeDb를 Gain 으로 바꿔서 makeupGainLinear 값을 곱함
+        
+        for (int ch = 0; ch < numChannels; ++ch)
+        {
+            auto* data = buffer.getWritePointer (ch);
+                //해당 channel의 실제 샘플 데이터에 접근할 포인터를 가지고 옴
+            data[n] *= gainLinear;
+        }
     }
+    
+    currentDb.store (envelopeDb);
+        //gain reduction의 상태를 다른 곳에 알려줌
 }
