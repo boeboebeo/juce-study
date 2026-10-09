@@ -106,7 +106,7 @@ float Compressor::computeLinkedLevel(const juce::AudioBuffer<float>& buffer, int
             const float x = buffer.getSample (ch, sampleIndex);
             sumSquares += x * x;
         }
-        const float instantPower = sumSquares / float juce::jmax (numchannels, 1);
+        const float instantPower = sumSquares / (float) juce::jmax (numChannels, 1);
             //현재 sampleIndex 의 각 채널의 값 제곱후 평균 - 임시변수
             //현재 한 샘플 시점의 평균 power
             //but, RMS 의 핵심은 "시간 평균". instantPower 는 현재 평균
@@ -216,6 +216,6 @@ void Compressor::processBlock(juce::AudioBuffer<float>& buffer)
         }
     }
     
-    currentDb.store (envelopeDb);
+    currentGrDb.store (envelopeDb);
         //gain reduction의 상태를 다른 곳에 알려줌
 }

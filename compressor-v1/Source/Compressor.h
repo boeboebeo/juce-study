@@ -51,7 +51,7 @@ public:
     void processBlock (juce::AudioBuffer<float>& buffer);
     
     //Thread-safe to read from the message thread while the audio thread writes it.
-    float getCurrentGainReductionsDb() const noexcept { return currentGrDb.load(); }
+    float getCurrentGainReductionDb() const noexcept { return currentGrDb.load(); }
         // .load() : atomic 객체의 값을 읽는 연산
         // (std::atomic 객체가 제공하는 원자적 읽기 연산)
     

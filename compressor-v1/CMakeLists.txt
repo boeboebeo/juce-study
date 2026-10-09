@@ -21,6 +21,8 @@ MICROPHONE_PERMISSION_ENABLED TRUE
 MICROPHONE_PERMISSION_TEXT "Compressor-v1 needs microphone access to process audio input."
 )
 
+juce_generate_juce_header(compressor-v1)
+
 target_compile_definitions(compressor-v1
 	PRIVATE
 	JUCE_VST3_CAN_REPLACE_VST2=0

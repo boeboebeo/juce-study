@@ -26,7 +26,7 @@ public:
     bool hasEditor() const override { return true; }
     
     //==================================================================
-    const juce::String getName() const override { return compressor-v1; }
+    const juce::String getName() const override { return "compressor-v1"; }
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     bool isMidiEffect() const override { return false; }
