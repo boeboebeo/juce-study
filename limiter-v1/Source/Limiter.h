@@ -87,9 +87,52 @@ public:
     
     void processBlock (juce::AudioBuffer<float>& buffer);
     
-    //최근 처리한 오디오블록중에서 가장 강한 gain reduction 값을 dB(음수)로 변환함
+    //최근 처리한 오디오블록중에서 가장 큰 gain reduction 값을 dB(음수)로 변환함
     float getCurrentGainReductionDb() const noexcept { return currentGrDb.load(); }
         //currentGrDb 값을 원자적인 변수(currentGrDb) 상태로 읽어옴
-        //.. 이 코드 다시 보기 
+        //.. 이 코드 다시 보기 (.cpp 이후에 다시보기)
     
-}
+private:
+    void updateReleaseCoefficient();
+        //사용자가 아래의 세 파라미터를 바꾸면 이걸 호출해 releaseCoeff 다시 계산
+    
+    double fs = 44100.0;
+    int numChannels = 2;
+    int lookaheadSamples = 1;
+    
+    //Parameters (사용자가 직접 조절하는)
+    float inputGainDb = 0.0f;
+    float ceilingDb = -1.0f;
+    float releaseMs = 100.0f;
+    
+    //내부처리에 필요한 변수들
+    float ceilingLinear = 1.0f;
+    float releaseCoeff = 0.0f;
+    
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative> inputGainSmoothed;
+    //juce::SmoothedValue : juce 가 제공하는 값 보간 클래스
+    //<1, 2>에서 1은 이 클래스가 사용할 자료형.
+    //2는 계산방식(juce::ValueSmoothingTypes::Multiplicative)
+    //사용자가 값을 갑자기 움직일때 click 이 생기는데, 그걸 방지하기 위해서 목표값까지 여러 샘플에 걸쳐서 이동하게 해주는 juce class
+    
+    //Lookahead audio delay (one ring buffer per channel,
+    //size = lookahead + 1)
+    std::vector<std::vector<float>> delayBuffers;
+        //벡터 안에 벡터(채널마다 별도의 딜레이 버퍼를 만들기 위함)
+    int delayWritePos = 0;
+        //함수 내에서 ++1하여서 그 자리를 한칸씩 옮길 예정
+        //원형버퍼이기 때문에 %로 writePos 계산할 예정
+    
+    //Gain-path state
+    float releaseState = 1.0f;  //위 주석설명에서의 r[n-1]. 바로 이전의 샘플 지점
+                                //이전 시점에 계산한 release gain
+    SlidingMinimum slidingMin;
+    
+    std::vector<float> averageBuffer; // last(lookahead+1) values of m[n]
+    int averagePos = 0;
+    double averageSum = 0.0;
+    
+    std::atomic<float> currentGrDb { 0.0f };
+    
+    
+};
