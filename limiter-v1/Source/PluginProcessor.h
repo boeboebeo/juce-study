@@ -56,6 +56,9 @@ public:
     
 private:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+        //어떤 특정 객체의 상태를 바꾸는 함수가 아니고
+        //모든 객체에 동일한 적용이므로 static 을 씀
+        //static : 객체.createParamterLayout() 이렇게 함수를 안써도 됨, 객체없어도 됨!
     
     void updateLimiterParameters();
     
@@ -66,4 +69,4 @@ private:
 
 
     
-}
+};

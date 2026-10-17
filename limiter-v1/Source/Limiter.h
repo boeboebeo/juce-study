@@ -132,6 +132,18 @@ private:
     int averagePos = 0;
     double averageSum = 0.0;
     
+    /* 전체흐름
+     releaseState : Release가 적용된 현재 gain, r[n]
+     => slidingMin.precess() : 최근 구간의 최솟값 m[n] 계산
+     => averageBuffer : 최근 m[n] 값들을 저장
+     
+       ** windowSize = lookaheadSamples + 1 이기 때문에
+        lookaheadrk 2 라면 2+1 개의 최근 m[n] 값을 저장함
+     
+     => smothedGain (저장된 값들의 평균. 실제 오디오에 적용한 gain)
+     
+     */
+    
     std::atomic<float> currentGrDb { 0.0f };
     
     
