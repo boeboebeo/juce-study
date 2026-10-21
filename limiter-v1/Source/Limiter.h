@@ -111,7 +111,7 @@ private:
     
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative> inputGainSmoothed;
     //juce::SmoothedValue : juce 가 제공하는 값 보간 클래스
-    //<1, 2>에서 1은 이 클래스가 사용할 자료형.
+    //<매개변수 1, 2>에서 1은 이 클래스가 사용할 자료형(float)
     //2는 계산방식(juce::ValueSmoothingTypes::Multiplicative)
     //사용자가 값을 갑자기 움직일때 click 이 생기는데, 그걸 방지하기 위해서 목표값까지 여러 샘플에 걸쳐서 이동하게 해주는 juce class
     
@@ -136,6 +136,7 @@ private:
      releaseState : Release가 적용된 현재 gain, r[n]
      => slidingMin.precess() : 최근 구간의 최솟값 m[n] 계산
      => averageBuffer : 최근 m[n] 값들을 저장
+        //최근 계산한 게인값들이 저장됨 (averageBuffer 에)
      
        ** windowSize = lookaheadSamples + 1 이기 때문에
         lookaheadrk 2 라면 2+1 개의 최근 m[n] 값을 저장함
