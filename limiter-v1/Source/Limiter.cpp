@@ -160,5 +160,7 @@ void Limiter::setRelease(float newReleaseMs)
 
 void Limiter::updateReleaseCoefficient()
 {
-    
+    // One-pole time constant : the gain recovers ~ 63% of the way back toward its target after 'releaseMs' milliseconds.
+    releaseCoeff = std::exp (-1.0f / (0.001f * releaseMs * (float) fs));
+        //자연상수 e
 }
