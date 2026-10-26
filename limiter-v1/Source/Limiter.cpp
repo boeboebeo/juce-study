@@ -177,5 +177,8 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
     
     float blockMinGain = 1.0f;
     
-    
+    for (int i = 0; i < numSamples; ++i)
+    {
+        
+    }
 }
