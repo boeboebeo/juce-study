@@ -159,8 +159,23 @@ void Limiter::setRelease(float newReleaseMs)
 }
 
 void Limiter::updateReleaseCoefficient()
+    //게인 회복속도 계산 (Release 계수 계산)
 {
     // One-pole time constant : the gain recovers ~ 63% of the way back toward its target after 'releaseMs' milliseconds.
     releaseCoeff = std::exp (-1.0f / (0.001f * releaseMs * (float) fs));
-        //자연상수 e
+        //exp : 자연상수 e의 x제곱을 계산. exp(x) = e^x
+    
+}
+
+
+void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
+    //한샘플당 계산하기 보다, 여러 샘플을 묶은 오디오 블럭(buffer)단위로 처리
+{
+    const int channels = juce::jmin (buffer.getNumChannels(), numChannels);
+    const int numSamples = buffer.getNumSamples();
+    const int windowSize = lookaheadSamples + 1;
+    
+    float blockMinGain = 1.0f;
+    
+    
 }
