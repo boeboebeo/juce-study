@@ -179,6 +179,11 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
     
     for (int i = 0; i < numSamples; ++i)
     {
+        const float inputGain = inputGainSmoothed.getNextValue();
+        
+        //1. Apply input gain, 
+        float peak = 0.0f;
+        
         
     }
 }
