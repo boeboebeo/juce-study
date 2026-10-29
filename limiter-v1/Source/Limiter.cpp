@@ -181,8 +181,15 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
     {
         const float inputGain = inputGainSmoothed.getNextValue();
         
-        //1. Apply input gain, 
+        //1. Apply input gain,
         float peak = 0.0f;
+        
+        for (int ch = 0; ch < channels; ++ch)
+        {
+            const float x = buffer.getWritePointer (ch)[i] * inputGain;
+            delayBuffers[(size_t) ch][(size_t) delayWritePos] = x;
+            
+        }
         
         
     }
