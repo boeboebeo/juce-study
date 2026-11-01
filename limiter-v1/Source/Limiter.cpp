@@ -188,8 +188,14 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
         {
             const float x = buffer.getWritePointer (ch)[i] * inputGain;
             delayBuffers[(size_t) ch][(size_t) delayWritePos] = x;
+            peak = juce::jmax (peak, std::abs(x));
             
         }
+        
+        //2. Required gain g[n]:
+        const float required = (peak > ceilingLinear) ? (ceilingLinear / peak) : 1.0f;
+        
+        //3. 
         
         
     }
