@@ -195,8 +195,12 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
         //2. Required gain g[n]:
         const float required = (peak > ceilingLinear) ? (ceilingLinear / peak) : 1.0f;
         
-        //3. 
+        //3.
+        if (required < releaseState)
+            releaseState = required;
+        else
+            releaseState = required + releaseCoeff * (releaseState - required);
         
-        
+        //4.
     }
 }
