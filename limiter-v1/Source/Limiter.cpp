@@ -169,17 +169,22 @@ void Limiter::updateReleaseCoefficient()
 
 
 void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
-    //한샘플당 계산하기 보다, 여러 샘플을 묶은 오디오 블럭(buffer)단위로 처리
+    //여러 샘플을 묶은 오디오 블록 단위로 전달받음
+    //블록 내부에서는 각 샘플을 하나씩 순차적으로 처리함
 {
     const int channels = juce::jmin (buffer.getNumChannels(), numChannels);
     const int numSamples = buffer.getNumSamples();
     const int windowSize = lookaheadSamples + 1;
     
     float blockMinGain = 1.0f;
+        //이 블록에서 가장 작았던 게인 값을 기록해두는데 사용
     
     for (int i = 0; i < numSamples; ++i)
+        //샘플 0번 : channel 1 -> 2
+        //샘플 1번 : channel 1 -> 2 이렇게 한 샘플당 각 채널을 확인후, 하나의 peak 계산 
     {
         const float inputGain = inputGainSmoothed.getNextValue();
+            //스무딩 시간에 따른 다음 샘플에 적용할 게인 값을 계산해서 반환함
         
         //1. Apply input gain,
         float peak = 0.0f;
@@ -187,20 +192,89 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
         for (int ch = 0; ch < channels; ++ch)
         {
             const float x = buffer.getWritePointer (ch)[i] * inputGain;
+                //입력게인을 적용한 샘플 만들기
+                //현재 채널의 i번째 샘플을 가져옴
+            
             delayBuffers[(size_t) ch][(size_t) delayWritePos] = x;
+                //이중 배열 [채널번호][writePos(지정된 위치)]
+                //그 지정된 위치에 x값(게인 적용된 값)을 보관함
             peak = juce::jmax (peak, std::abs(x));
+                //기존 peak(위에있는 변수)와 현재 샘플의 절댓값 중 큰 값을 선택
+                //L, R 중 큰 값을 선택하기 위해서 (Stereo-linked Peak detection)
             
         }
         
         //2. Required gain g[n]:
         const float required = (peak > ceilingLinear) ? (ceilingLinear / peak) : 1.0f;
+            //조건 ? 참일 때 값 : 거짓일 때 값; (삼항연산자)
+            //현재 피크를 ceiling 이하로 만드려면 입력신호에 ceilingLinear/peak 를 곱해줘야 함 => 그래서 ceiling 값이 되니까
+            //이미 ceiling 이하라면 감쇄할 필요 x -> 1.0반환
         
-        //3.
+            //peak * required = ceilingLienar
+            //따라서 required = ceilingLinear/peak
+            //이렇게 하면 현재 피크가 정확히 ceiling 에 도달하게 됨
+        
+        //3. Release stage r[n]
+        //더 많이 감쇄해야 하는 경우
         if (required < releaseState)
             releaseState = required;
+        //감쇄량을 같거나 줄여도 되는 경우 - 이제 조금씩 압축했던걸 회복함
+        //release 계수를 이용해 목표게인으로 서서히 회복
         else
             releaseState = required + releaseCoeff * (releaseState - required);
         
-        //4.
+        //4. Sliding minimum over the lookahead window
+        //최근 lookahead 윈도우 안의 releaseState 중 최솟값을 구함
+        const float windowMin = slidingMin.process (releaseState);
+        
+        //5. Moving average 처리
+        averageSum += (double) windowMin - (double) averageBuffer[(size_t) averagePos];
+        
+        averageBuffer[(size_t) averagePos] = windowMin;
+            //새 값을 버퍼에 저장
+        
+        averagePos = (averagePos + 1) % windowSize;
+            //다음 위치로 이동하기 (원형버퍼를 사용하기 때문에 마지막 위치에 도달하면 다시 0으로 돌아감
+        
+        const float smoothedGain = (float) (averageSum / (double) windowSize);
+            //전체 합계를 버퍼 크기로 나눔
+            //averageBuffer 에 저장된 게인 값들의 산술평균 계산
+            //평균값이 반드시 windowMin 이하인 것은 아님
+
+        blockMinGain = juce::jmin (blockMinGain, smoothedGain);
+            //블록에서 가장 작은 게인 기록
+            //현재 샘플에서 계산한 smooothedGain 과 지금까지 기록한 blockMinGain 중 더 작은 값을 선택함
+        
+        //6.
+        const int readPos = (delayWritePos + 1) % windowSize;
+            //Lookahead 지연 버퍼에서 오디오 읽기
+            //delayWritePos(이번 샘플을 기록한 위치) 와 readPos(지연 버퍼에서 출력할 샘플을 읽을 위치) 구분
+            //lookahead 샘플 수 만큼 오디오가 지연됨
+        
+            //현재 기록위치의 다음칸을 읽기 위치로 지정함
+            //원형 버퍼에서 가장 오래된 샘플을 읽어오기 위한 위치
+            //결과적으로 lookahead 샘플 수 만큼 지연된 오디오를 읽음
+        
+        for (int ch = 0; ch < channels; ++ch)
+        {
+            const float delayed = delayBuffers[(size_t) ch][(size_t) readPos];
+                //앞에서 저장해 놓았던 오디오 샘플 읽어오기
+                //Lookahead 만큼 이전에 입력된 샘플(1.번 과정에서 입력해둠 .. = x 로)
+            buffer.getWritePointer (ch)[i] = juce::jlimit (-ceilingLinear, ceilingLinear, delayed * smoothedGain);
+        }
+            //delayed * smoothedGain : 게인 적용
+            //lookahead 샘플 개수만큼 전에 입력한 delayBuffers안의 샘플에다가 smoothedGain을 곱해줌
+            //juce::jlimit => 최종 출력 제한
+            //넘어가면은 하드 클리핑에 가까운 처리를 함
+        
+        delayWritePos = readPos;
+            //다음 샘플을 위한 기록 위치 이동
+        
     }
+    
+    currentGrDb.store (juce::Decibels::gainToDecibels (blockMinGain, -60.0f));
+        //현재 오디오 블록의 모든 샘플을 처리한 다음에 한번 실행됨
+        //-60.0f : 게인이 0일때 사용할 dB 값 지정 . 로그 계산에서 0은 표현할 수 없기 때문에 대신 -60.0f 를 반환함
+        //.store -> GUI 에서 게인 감소량 미터 보여줄때 활용
+
 }
