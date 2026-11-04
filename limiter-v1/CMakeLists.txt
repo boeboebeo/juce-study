@@ -23,6 +23,8 @@ MICROPHONE_PERMISSION_ENABLED TRUE
 MICROPHONE_PERMISSION_TEXT "Limiter-v1 needs microphone access to process audio input."
 )
 
+juce_generate_juce_header(limiter-v1)
+
 target_compile_definitions(limiter-v1
     PRIVATE
         JUCE_VST3_CAN_REPLACE_VST2=0

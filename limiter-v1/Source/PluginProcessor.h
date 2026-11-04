@@ -39,7 +39,7 @@ public:
     void changeProgramName (int, const juce::String&) override {}
     
     //===================================================================
-    void getStateInformation (juce::MemoryBlock destData) override;
+    void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     //===================================================================

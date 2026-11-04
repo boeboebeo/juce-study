@@ -63,7 +63,7 @@ float SlidingMinimum::process (float x)
         --count;
     }
     
-    ++sampleCounter //다음 샘플 처리할 준비 (그 다음 호출에서는 다음 샘플 처리)
+    ++sampleCounter; //다음 샘플 처리할 준비 (그 다음 호출에서는 다음 샘플 처리)
     
     //the front of the deque is the minimum of the current window
     return values[(size_t) head];
@@ -148,7 +148,7 @@ void Limiter::setInputGain (float newInputGainDb)
 void Limiter::setCeiling (float newCeilingDb)
 {
     ceilingDb = newCeilingDb;
-    ceilingLinear = juce::Decibels::DecibelsToGain (ceilingDb);
+    ceilingLinear = juce::Decibels::decibelsToGain (ceilingDb);
 
 }
 
@@ -181,7 +181,7 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
     
     for (int i = 0; i < numSamples; ++i)
         //샘플 0번 : channel 1 -> 2
-        //샘플 1번 : channel 1 -> 2 이렇게 한 샘플당 각 채널을 확인후, 하나의 peak 계산 
+        //샘플 1번 : channel 1 -> 2 이렇게 한 샘플당 각 채널을 확인후, 하나의 peak 계산
     {
         const float inputGain = inputGainSmoothed.getNextValue();
             //스무딩 시간에 따른 다음 샘플에 적용할 게인 값을 계산해서 반환함

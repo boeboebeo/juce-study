@@ -22,7 +22,7 @@
             // gain 변화를 부드럽게 만듦
                                                             |
                                                             |
-                                                         ouput (<-ceiling)
+                                                         output (<-ceiling)
  
     lookahead : L
     - The audio is delayed by L samples,
@@ -134,14 +134,14 @@ private:
     
     /* 전체흐름
      releaseState : Release가 적용된 현재 gain, r[n]
-     => slidingMin.precess() : 최근 구간의 최솟값 m[n] 계산
+     => slidingMin.process() : 최근 구간의 최솟값 m[n] 계산
      => averageBuffer : 최근 m[n] 값들을 저장
         //최근 계산한 게인값들이 저장됨 (averageBuffer 에)
      
        ** windowSize = lookaheadSamples + 1 이기 때문에
         lookaheadrk 2 라면 2+1 개의 최근 m[n] 값을 저장함
      
-     => smothedGain (저장된 값들의 평균. 실제 오디오에 적용한 gain)
+     => smoothedGain (저장된 값들의 평균. 실제 오디오에 적용한 gain)
      
      */
     
