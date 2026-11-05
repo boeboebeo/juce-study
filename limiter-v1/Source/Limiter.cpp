@@ -278,3 +278,10 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
         //.store -> GUI 에서 게인 감소량 미터 보여줄때 활용
 
 }
+
+/*
+ next step
+    
+    - true-peak meter 추가
+    - 
+ */
