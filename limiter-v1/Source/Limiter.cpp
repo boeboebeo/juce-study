@@ -283,5 +283,7 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
  next step
     
     - true-peak meter 추가
-    - 
+    
+        - oversampler 추가
+        - true peak Limiter 추가
  */
