@@ -286,4 +286,5 @@ void Limiter::processBlock (juce::AudioBuffer<float>& buffer)
     
         - oversampler 추가
         - true peak Limiter 추가
+        (sample peak 로 는 부족하기 때문에)
  */
