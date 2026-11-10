@@ -35,6 +35,7 @@ target_sources(limiter-v1
 PRIVATE
 	Source/Limiter.cpp
 	Source/Limiter.h
+	Source/TruePeakDetector.h
 	Source/PluginProcessor.cpp
 	Source/PluginProcessor.h
 	Source/PluginEditor.cpp
