@@ -44,3 +44,12 @@ public:
     static constexpr double kaiserBeta = TP_KAISER_BETA;
 #endif
 }
+
+static constexpr int numTaps = oversampling * 2 * halfLengthSamples + 1;
+    //97 for 12
+static constexpr int tapsPerPhase = 2 * halfLengthSamples + 1 ;
+    //phase 0 uses a 11, others one less
+static constexpr int int groupDelaySamples = halfLengthSamples;
+    //(numTaps-1) / 2 / 4 (2로 나누고, 4로 나누면 지연 샘플이 나옴)
+    //원래 지연시간이 D = (N - 1) / 2 였으니까 (대칭 FIR 필터의 그룹지연)
+    //ex. D = (97-1) / (2*4) = 12 samples 
