@@ -31,11 +31,13 @@ class TruePeakDetector
 public:
     static constexpr int oversampling = 4;
     
-#ifndef TP_HALF_LENGTH
+    //일반적인 if 문은 프로그램이 실행될때 조건을 검사하지만
+    //ifndef는 컴파일이 시작되기 전처리단계에서 검사함
+#ifndef TP_HALF_LENGTH  //if not defined (정의되어있지 않다면 아래 코드 사용)
     static constexpr int halfLengthSamples = 12;
-#else
+#else                   //정의되어있다면 아래코드 사용
     static constexpr int halfLengthSamples = TP_HALF_LENGTH;
-#endif
+#endif                  //조건부 전처리 구간을 끝냄
 #ifndef TP_KAISER_BETA
     static constexpr double kaiserBeta = 8.0;
 #else
