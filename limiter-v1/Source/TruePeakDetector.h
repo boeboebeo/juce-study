@@ -52,4 +52,29 @@ static constexpr int tapsPerPhase = 2 * halfLengthSamples + 1 ;
 static constexpr int int groupDelaySamples = halfLengthSamples;
     //(numTaps-1) / 2 / 4 (2로 나누고, 4로 나누면 지연 샘플이 나옴)
     //원래 지연시간이 D = (N - 1) / 2 였으니까 (대칭 FIR 필터의 그룹지연)
-    //ex. D = (97-1) / (2*4) = 12 samples 
+    //ex. D = (97-1) / (2*4) = 12 samples
+
+
+    TruePeakDetector()
+{
+        const auto h = makePrototype();
+        //밑에서 정의되는 함수 -> h(Kaiser-windowed sinc 방식으로 FIR 필터의 계수 97개를 계산해서 반환) 를 반환한다.
+        //makePrototype() 을 호출하면 계산된 97개의 계수 배열이 돌아오는 것
+        
+        // Phase-major layout: coeffs[p][k] = h[4k + p]
+        for (int p = 0; p < oversampling; ++p)
+            for (int k = 0; k < tapsPerPhase; ++k)
+            {
+                const int j = oversampling * k + p;
+                //j =
+                coeffs[(size_t) p][(size_t) k] = (j < numTaps) ? (float) h[(size_t) j] : 0.0f;
+            }
+        
+        reset();
+    }
+
+    void reset()
+    {
+        history.fill (0.0f);
+        pos = 0;
+    }
