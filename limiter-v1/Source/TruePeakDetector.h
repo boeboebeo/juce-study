@@ -76,5 +76,43 @@ static constexpr int int groupDelaySamples = halfLengthSamples;
     void reset()
     {
         history.fill (0.0f);
+            //아래에서 선언한 histroy array -> 초기화 (position 도 초기화)
+            //FIR 연산에서는 과거 입력도 참조하므로 <- 처음 필터를 실행할때는 과거 샘플이 존재하지 않으므로 과거 샘플이 없다는 것을 표현하기 위해 0으로 초기화
         pos = 0;
     }
+
+// Feed one sample : returns the largest |value| among the 4 interpolated points that belong to step
+// they sit at waveform times (n - 12) + p/4, p = 0..3)
+inline float process (float x) noexcept
+    //x값이 입력되면 (하나의 샘플 값)
+    //inline : 헤더 파일에 함수 정의를 작성할때 유용
+{
+    pos = (pos + 1) & historyMask;
+        // &: AND 연산자 (비트 AND 연산자)
+        // 32칸(아래에서 historyMask = 32라고 써놓음) Ring buffer 의 순환구조
+    history[(size_t) pos] = x;
+    
+    float peak = 0.0f;
+        //피크 저장 변수
+        //가 phase 의 계산 결과중 가장 큰 절대값을 peak 에 저장할것임 (지금은 초기화)
+    
+    for (int p = 0; p < ovresampling; ++p)
+    {
+        float acc = 0.0f;
+            //초기화 (acc = acuumulator)
+            //accumulator : FIR 필터는 여러개의 곱셈 결과를 더해서 하나의 출력값을 만듦 -> 그 합계를 임시로 저장하는 변수
+        
+        for (int k = 0; k < tapsPerPhase; ++k)
+            acc += coeffs[(size_t) p][(size_t) k] * history[(size_t) ((pos-k) & historyMask)];
+            //coeffs[p][k] : 현재 Phase 의 FIR 계수
+            //history[(pos-k) & historyMask] : 현재 위치에서 과거로 k만큼 떨어진 입력샘플
+        
+        const float a = std::abs(acc);
+        peak = (a > peak) ? a : peak;
+            //새로 계산한 절댓값 a 가 기존 Peak 보다 크면 a를 저장한다.
+            //아니면 기존 peak 값 유지
+    }
+    
+    return peak;
+    
+}
