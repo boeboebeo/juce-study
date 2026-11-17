@@ -90,6 +90,8 @@ inline float process (float x) noexcept
     pos = (pos + 1) & historyMask;
         // &: AND 연산자 (비트 AND 연산자)
         // 32칸(아래에서 historyMask = 32라고 써놓음) Ring buffer 의 순환구조
+            // c++ &(AND) 연산 : bit AND 연산이라서, 십진수 숫자를 이진수로 변환하고, 각 2진수를 AND 연산하면 그 buffer 크기 초과하는 값들은 모듈로 연산처럼 ring buffer 처리될 수 있게 됨
+    
     history[(size_t) pos] = x;
     
     float peak = 0.0f;
