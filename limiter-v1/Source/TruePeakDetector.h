@@ -118,3 +118,10 @@ inline float process (float x) noexcept
     return peak;
     
 }
+
+private:
+    static constexpr int historySize = 32;
+    static constexpr int historyMask = historySize - 1;
+
+
+};
