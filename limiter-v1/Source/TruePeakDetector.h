@@ -125,8 +125,9 @@ private:
 
     // Modified Bessel function of the first kind, order 0 (power series).
     static double besselI0 (double x)
+    // bessel function : kaiser window 의 모양을 계산하는데 사용됨
     {
-        double sum = 1.0, term = 1.0;
+        double sum = 1.0, term = 1.0;   //첫번째 항 1
         const double q = x * x * 0.25;
 
         for (int k = 1; k < 60; ++k)
