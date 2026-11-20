@@ -123,5 +123,21 @@ private:
     static constexpr int historySize = 32;
     static constexpr int historyMask = historySize - 1;
 
+    // Modified Bessel function of the first kind, order 0 (power series).
+    static double besselI0 (double x)
+    {
+        double sum = 1.0, term = 1.0;
+        const double q = x * x * 0.25;
+
+        for (int k = 1; k < 60; ++k)
+        {
+            term *= q / ((double) k * (double) k);
+            sum += term;
+            if (term < 1.0e-14 * sum)
+                break;
+        }
+
+        return sum;
+    }
 
 };
