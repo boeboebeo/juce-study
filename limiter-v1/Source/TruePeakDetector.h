@@ -142,4 +142,16 @@ private:
         return sum;
     }
 
+    static std::array<double, numTaps> makePrototype()
+    // True peak 검출에 사용할 97개의 FIR filter 계수를 만들어서 반환하는 것
+{
+        std::array<double, numTaps> h {};   //h라는 배열 생성 ({} : 모든 원소 0으로 초기화
+        const double pi = std::acos(-1.0);
+        //acos : 역코사인
+        const int center = (numTaps - 1) / 2; //가운데 탭
+        const double i0Beta = besselI0 (kaiserBeta);
+        
+        
+        
+
 };
