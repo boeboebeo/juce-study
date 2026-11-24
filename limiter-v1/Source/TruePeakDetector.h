@@ -149,9 +149,24 @@ private:
         const double pi = std::acos(-1.0);
         //acos : 아크코사인 (입력과 출력의 관계를 뒤집음)
         //acos(-1.0) 은 cos 연산을 해서 -1.0 이 나오는 값이니까 cos(pi) = -1.0 따라서 pi 가 이렇게 정의되는 것
-        //c++ 의 acos() 는 결과를 라디안 단위로 반환함 
+        //c++ 의 acos() 는 결과를 라디안 단위로 반환함
         const int center = (numTaps - 1) / 2; //가운데 탭
         const double i0Beta = besselI0 (kaiserBeta);
+    
+    for (int j = 0; j < numTaps; ++j)
+    {
+        //sinc with cutoff at the Original nyquist
+        const double t = (double) (j - center) / (double) oversampling;
+        const double sinc = (t == 0.0) ? 1.0 : std::sin (pi * t) / (pi * t);
+        
+        //Kaiser window
+        const double r = 2.0 * (double) j / (double) (numTaps - 1) - 1.0;
+        const double window = besselI0 (kaiserBeta * std::sqrt (std::max (0.0, 1.0 - r * r))) / i0Beta;
+        
+        h[(size_t) j] = sinc * window;
+    }
+    
+    return h;
         
         
         
