@@ -156,6 +156,7 @@ private:
     for (int j = 0; j < numTaps; ++j)
     {
         //sinc with cutoff at the Original nyquist
+        //97개의 계수 중 현재 계산하고 있는 위치가 중앙 탭으로 부터 얼마나 떨어져 있는지 계산
         const double t = (double) (j - center) / (double) oversampling;
         const double sinc = (t == 0.0) ? 1.0 : std::sin (pi * t) / (pi * t);
         
@@ -169,6 +170,10 @@ private:
     return h;
         
         
+    //2차원 배열 : oversampling 이 4이므로 배열이 4개 있는 구조
+    std::array<std::array<float, tapsPerPhase>, oversampling> coeffs {};
+    std::array<float, historySize> history {};
+    int pos = 0;
         
 
 };
