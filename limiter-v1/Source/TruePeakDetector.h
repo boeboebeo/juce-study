@@ -98,7 +98,7 @@ inline float process (float x) noexcept
         //피크 저장 변수
         //가 phase 의 계산 결과중 가장 큰 절대값을 peak 에 저장할것임 (지금은 초기화)
     
-    for (int p = 0; p < ovresampling; ++p)
+    for (int p = 0; p < oversampling; ++p)
     {
         float acc = 0.0f;
             //초기화 (acc = acuumulator)

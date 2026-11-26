@@ -24,6 +24,8 @@
                                                             |
                                                          output (<-ceiling)
  
+                            **output -> TruepeakDetector -> dBTP meter
+ 
     lookahead : L
     - The audio is delayed by L samples,
     - 출력시점 n 에 나오는 오디오는 L 의 영향으로 과거샘플 x[n - L]임.
@@ -39,6 +41,7 @@
 #include <JuceHeader.h>
 #include <atomic>
 #include <vector>
+#include "TruePeakDetector.h"
 
 
 // O(1) amortised sliding-window minimum (monotonic deque in a ring buffer).
@@ -92,6 +95,9 @@ public:
         //currentGrDb 값을 원자적인 변수(currentGrDb) 상태로 읽어옴
         //.. 이 코드 다시 보기 (.cpp 이후에 다시보기)
     
+    //20261127 추가한 부분 - truepeak 관련
+    float consumeOutputTruePeak() noexcept { return outputTruePeak.exchange(0.0f); }
+    
 private:
     void updateReleaseCoefficient();
         //사용자가 아래의 세 파라미터를 바꾸면 이걸 호출해 releaseCoeff 다시 계산
@@ -99,6 +105,7 @@ private:
     double fs = 44100.0;
     int numChannels = 2;
     int lookaheadSamples = 1;
+    int audioDelaySamples = 1; //A = L + D + H
     
     //Parameters (사용자가 직접 조절하는)
     float inputGainDb = 0.0f;
@@ -123,6 +130,10 @@ private:
         //함수 내에서 ++1하여서 그 자리를 한칸씩 옮길 예정
         //원형버퍼이기 때문에 %로 writePos 계산할 예정
     
+    // Detection (input side) and metering (output side), one per channel
+    std::vector<TruePeakDetector> detectors;
+    std::vector<TruePeakDetector> meterDetectors;
+    
     //Gain-path state
     float releaseState = 1.0f;  //위 주석설명에서의 r[n-1]. 바로 이전의 샘플 지점
                                 //이전 시점에 계산한 release gain
@@ -146,6 +157,7 @@ private:
      */
     
     std::atomic<float> currentGrDb { 0.0f };
+    std::atomic<float> outputTruePeak { 0.0f };
     
     
 };

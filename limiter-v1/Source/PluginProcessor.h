@@ -53,6 +53,10 @@ public:
     //위에서 #include "Limiter.h" 처리를 했기 때문에 Limiter class 사용할 수 있다
         //그 안에 Limiter 클래스의 멤버함수인 getCurrent .. 이거 함수 쓰겠다는 의미
     
+    //Largest OUTPUT true peak (linear) since the previous call (read-and-reset)
+    float consumeOutputTruePeak() { return limiter.consumeOutputTruePeak(); }
+    
+    
     
 private:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
