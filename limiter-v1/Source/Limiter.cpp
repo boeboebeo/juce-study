@@ -82,8 +82,14 @@ void Limiter::prepare(double sampleRate, int /*maximumBlockSize*/, int newNumCha
     lookaheadSamples = juce::jmax (1, (int) std::ceil ((double) lookaheadMs * 0.001 * fs));
         //lookahead를 초로 샘플 개수로 계산
     
-    const int windowSize = lookaheadSamples + 1;
-        //현재 샘플까지 포함하기 위해서 +1 처리함
+    // A = L + D + H  (see Limiter.h)
+    constexpr int filterDelay = TruePeakDetector::groupDelaySamples; // D
+    constexpr int filterReach = TruePeakDetector::halfLengthSamples; // H
+    audioDelaySamples = lookaheadSamples + filterDelay + filterReach;
+ 
+    const int delaySize   = audioDelaySamples + 1;
+    const int averageSize = lookaheadSamples + 1;                 // Wa
+    const int minimumSize = averageSize + 2 * filterReach + 1;    // Wm = A + 2
     
     delayBuffers.assign ((size_t) numChannels, std::vector<float> ((size_t) windowSize, 0.0f));
     averageBuffer.assign ((size_t) windowSize, 1.0f);
